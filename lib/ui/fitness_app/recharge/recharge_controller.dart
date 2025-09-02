@@ -18,10 +18,12 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../history/historycontroller.dart';
 import '../home/homecontroller.dart';
 
 class RechargeController extends GetxController {
   final HomeController hc = Get.find<HomeController>();
+  final HistoryController hsc = Get.find<HistoryController>();
   var dropdownItems = <Map<String, String>>[].obs;
   var selectedValue = RxnString();
 
@@ -123,10 +125,15 @@ class RechargeController extends GetxController {
       if (response.statusCode == 201 && jsonBody['success'] == true) {
 
         bool? confirmaction = await AlertHelper.showSuccessConfirmation(
-          title: "Tranaction Successful",
-          text: "What you want to do Now?",
+          title: "Tranaction",
+          text: jsonBody['message'],
         );
-        hc.silentrefreshData();
+        await hc.silentrefreshData();
+        hsc.showFilteredList.value=false;
+        print("List Show=${hsc.showFilteredList.value}");
+        await hsc.loadHistory();
+        hsc.filterTransactions();
+
        // SnackbarUtils.showSuccess(jsonBody['message']);
         phoneController.clear();
         amountController.clear();

@@ -42,8 +42,14 @@ class HistoryController extends GetxController {
   Future<void> loadHistory() async {
     isLoading.value = true;
     res.value = await SharedPref.get_comp_trans_Data();
-    allTransactions=res.value!.transactions;
-    filterTypes=res.value!.filtre;
+    allTransactions.assignAll(res.value!.transactions);
+    filterTypes.assignAll(res.value!.filtre);
+    print("loading history work here ");
+
+    // Agar filter pehle se active hai to wapis run karo
+    if (showFilteredList.value) {
+      filterTransactions();
+    }
 
     isLoading.value = false;
   }
@@ -88,9 +94,7 @@ class HistoryController extends GetxController {
 
 
     filteredTransactions.assignAll(filtered);
-    filteredTransactions.forEach((t) {
-      print("${t.typeId}- ${t.type}- ${t.date}");
-    });
+
     showFilteredList.value = true;
   }
 
@@ -107,7 +111,7 @@ class HistoryController extends GetxController {
 
   void selectFilter(int index) {
     selectedFilterIndex.value = index;
-    filterTransactions();
+
   }
 
   Future<void> pickDate(BuildContext context, bool isFromDate) async {
@@ -126,7 +130,7 @@ class HistoryController extends GetxController {
         endDateController.text = DateFormat('yyyy-MM-dd').format(picked);
       }
 
-      filterTransactions();
+
     }
   }
 }

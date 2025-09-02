@@ -50,7 +50,7 @@ class HistoryInputView extends StatelessWidget {
                           )
                         ],
                       ),
-                      child: Obx(() => Column(
+                      child: Column(
                         children: [
                           /// Type Dropdown
                           DropdownButtonFormField<int>(
@@ -122,7 +122,7 @@ class HistoryInputView extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )),
+                      ),
                     ),
 
                     /// Space between form and list

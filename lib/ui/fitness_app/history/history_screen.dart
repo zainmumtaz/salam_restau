@@ -26,8 +26,8 @@ class _HistoryScreenState extends State<HistoryScreen>
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
-  final HistoryController history_controller = Get.put(HistoryController());
-
+  //final HistoryController history_controller = Get.put(HistoryController());
+  final history_controller = Get.find<HistoryController>();
   @override
   void initState() {
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(

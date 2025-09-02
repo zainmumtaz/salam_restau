@@ -171,9 +171,9 @@ class _BottomBarViewState extends State<BottomBarView>
                           splashColor: Colors.white.withOpacity(0.1),
                           highlightColor: Colors.transparent,
                           focusColor: Colors.transparent,
-                          onTap: hc.refreshData,
+                          onTap: hc.scanner,
                           child: Icon(
-                            Icons.sync,
+                            Icons.qr_code,
                             color: FitnessAppTheme.white,
                             size: 32,
                           ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:salam_restau/models/payment_method_model.dart';
+import 'package:salam_restau/ui/fitness_app/history/historycontroller.dart';
 import 'package:salam_restau/utilities/alerts.dart';
 
 import '../../../utilities/constants.dart';
@@ -21,6 +22,7 @@ import '../home/homecontroller.dart';
 
 class PayoutController extends GetxController {
   final HomeController hc = Get.find<HomeController>();
+  final HistoryController hsc = Get.find<HistoryController>();
   var dropdownItems = <Map<String, String>>[].obs;
   var selectedValue = RxnString();
 
@@ -126,8 +128,12 @@ class PayoutController extends GetxController {
 
 
 
-        AlertHelper.showSuccess(title: jsonBody['message'], text: textmsg);
-        hc.silentrefreshData();
+        AlertHelper.showSuccess(title: "Transaction", text: jsonBody['message']);
+        await hc.silentrefreshData();
+        hsc.showFilteredList.value=false;
+        print("List Show=${hsc.showFilteredList.value}");
+        await hsc.loadHistory();
+        hsc.filterTransactions();
       } else {
        // print(jsonBody['message']);
         AlertHelper.showError(title: 'Transcation Failed', text:jsonBody['message'].toString());

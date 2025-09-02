@@ -245,7 +245,7 @@ class HomeController extends GetxController {
   }
 
   void scanner() {
-   // Get.toNamed(AppRoutes.scan);
+    Get.toNamed(AppRoutes.scan);
   }
 
   Future<void> silentrefreshData() async {

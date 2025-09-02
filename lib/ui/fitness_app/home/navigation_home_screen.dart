@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:salam_restau/invite_friend_screen.dart';
+import 'package:salam_restau/ui/fitness_app/history/historycontroller.dart';
 
 
 import '../../../app_theme.dart';
@@ -16,6 +17,7 @@ import 'homecontroller.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   final HomeController home_controller = Get.put(HomeController());
+  final HistoryController hsc = Get.put(HistoryController());
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }
