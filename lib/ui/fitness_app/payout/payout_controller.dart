@@ -17,7 +17,10 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../home/homecontroller.dart';
+
 class PayoutController extends GetxController {
+  final HomeController hc = Get.find<HomeController>();
   var dropdownItems = <Map<String, String>>[].obs;
   var selectedValue = RxnString();
 
@@ -91,6 +94,7 @@ class PayoutController extends GetxController {
       'mobile': phoneController.text.trim(),
       'wave_id': selectedValue.value,
     };
+    print("waveId=${selectedValue.value}");
 
     try {
 
@@ -109,6 +113,7 @@ class PayoutController extends GetxController {
         //SnackbarUtils.showSuccess(jsonBody['message']);
         phoneController.clear();
         amountController.clear();
+        selectedValue.value = null;
         //Navigator.pop(context);
         // String value=jsonBody["data"]["wave_launch_url"].toString();
         // print("values=$value");
@@ -117,14 +122,20 @@ class PayoutController extends GetxController {
             "Transaction: ${jsonBody['data']['payout_id']}\n"
             "Montant: ${jsonBody['data']['net_amount']}\n"
             "Frais : ${jsonBody['data']['fee_charged']}\n"
-            "Total : ${jsonBody['data']['fee_charged']}\n";
+            "Total : ${jsonBody['data']['total'] }\n";
+
+
 
         AlertHelper.showSuccess(title: jsonBody['message'], text: textmsg);
+        hc.silentrefreshData();
       } else {
-        SnackbarUtils.showError(jsonBody['message'] ?? "Transfer failed");
+       // print(jsonBody['message']);
+        AlertHelper.showError(title: 'Transcation Failed', text:jsonBody['message'].toString());
+       // SnackbarUtils.showError(jsonBody['message'] ?? "Transfer failed");
       }
 
     } catch (e) {
+      print(e.toString());
       Get.snackbar("Error", e.toString());
     } finally {
       isLoading.value = false;

@@ -248,6 +248,20 @@ class HomeController extends GetxController {
    // Get.toNamed(AppRoutes.scan);
   }
 
+  Future<void> silentrefreshData() async {
+    // Step 2: Run the async method
+    bool success = await loadhistoryonline();
+    await loadUserData();
+    await loadhistory();
+    await loadrooms();
+    // Step 4: Optionally show result
+    if (success) {
+
+    } else {
+      SnackbarUtils.showError("Data refresh failed!");
+    }
+  }
+
   var isBalanceVisible = false.obs;
 
   void toggleBalanceVisibility() {

@@ -32,4 +32,7 @@ class SnackbarUtils {
       icon: Icon(Icons.error, color: Colors.white), // Optional icon
     );
   }
+
+
+
 }

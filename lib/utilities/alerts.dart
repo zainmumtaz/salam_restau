@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:get/get.dart';
 
@@ -62,6 +63,8 @@ class AlertHelper {
     );
   }
 
+
+
   // Confirmation Alert - OK for forward, Cancel for back
   static Future<bool?> showConfirmation({
     required String title,
@@ -86,10 +89,40 @@ class AlertHelper {
   }
 
 
+  static Future<bool?> showSuccessConfirmation({
+    required String title,
+    required String text,
+  }) async {
+    bool? result = await QuickAlert.show(
+      context: Get.context!,
+      type: QuickAlertType.confirm,
+      title: title,
+      text: text,
+      confirmBtnText: 'Go To Url',
+      cancelBtnText: 'Copy Url',
+      confirmBtnColor: Colors.green,
+      backgroundColor: Colors.white,
+      titleColor: Colors.green,
+      textColor: Colors.green,
+      onConfirmBtnTap: () {
+        Get.back(result: true); // user confirmed
+      },
+      onCancelBtnTap: () {
+        Get.back(result: false); // user cancelled
+      },
+    );
+    return result;
+  }
+
+
+
   // Dismiss loading manually
   static void dismiss() {
     if (Get.isDialogOpen!) {
       Get.back();
     }
   }
+
+
+
 }

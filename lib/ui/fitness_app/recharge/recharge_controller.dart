@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:salam_restau/models/payment_method_model.dart';
 
+import '../../../utilities/alerts.dart';
 import '../../../utilities/constants.dart';
 import '../../../utilities/routes.dart';
 import '../../../utilities/shared_preferences.dart';
@@ -16,7 +18,10 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../home/homecontroller.dart';
+
 class RechargeController extends GetxController {
+  final HomeController hc = Get.find<HomeController>();
   var dropdownItems = <Map<String, String>>[].obs;
   var selectedValue = RxnString();
 
@@ -76,6 +81,17 @@ class RechargeController extends GetxController {
     }
   }
 
+  void copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text)).then((_) {
+      Get.snackbar(
+        "Copied",
+        "Text copied to clipboard",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2),
+      );
+    });
+  }
+
   Future<void> recharge(BuildContext context) async {
 
     final authtoken = await SharedPref.getAuthToken();
@@ -105,13 +121,25 @@ class RechargeController extends GetxController {
       final jsonBody = json.decode(response.body);
 
       if (response.statusCode == 201 && jsonBody['success'] == true) {
-        SnackbarUtils.showSuccess(jsonBody['message']);
+
+        bool? confirmaction = await AlertHelper.showSuccessConfirmation(
+          title: "Tranaction Successful",
+          text: "What you want to do Now?",
+        );
+        hc.silentrefreshData();
+       // SnackbarUtils.showSuccess(jsonBody['message']);
         phoneController.clear();
         amountController.clear();
+        selectedValue.value = null;
         //Navigator.pop(context);
         String value=jsonBody["data"]["wave_launch_url"].toString();
         print("values=$value");
-        Get.offNamed(AppRoutes.browser, arguments: value);
+          if(confirmaction==true) {
+            Get.offNamed(AppRoutes.browser, arguments: value);
+          }
+          else{
+            copyToClipboard(value);
+          }
       } else {
         SnackbarUtils.showError(jsonBody['message'] ?? "Transfer failed");
       }

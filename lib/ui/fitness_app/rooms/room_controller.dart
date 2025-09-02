@@ -75,7 +75,7 @@ class RoomController extends GetxController {
         final jsonBody = json.decode(response.body);
 
         if (response.statusCode == 200 && jsonBody['success'] == true) {
-          SnackbarUtils.showSuccess(jsonBody['message']);
+          AlertHelper.showSuccess(title: "Transaction successful", text: jsonBody['message']);
           Navigator.pop(context);
         } else {
           SnackbarUtils.showError(jsonBody['message'] ?? "Payment failed");
