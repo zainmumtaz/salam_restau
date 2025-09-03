@@ -5,7 +5,7 @@ import 'models/homelist.dart';
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -67,6 +67,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 top: 0, left: 12, right: 12),
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.vertical,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: multiple ? 2 : 1,
+                              mainAxisSpacing: 12.0,
+                              crossAxisSpacing: 12.0,
+                              childAspectRatio: 1.5,
+                            ),
                             children: List<Widget>.generate(
                               homeList.length,
                               (int index) {
@@ -96,13 +103,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 );
                               },
                             ),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: multiple ? 2 : 1,
-                              mainAxisSpacing: 12.0,
-                              crossAxisSpacing: 12.0,
-                              childAspectRatio: 1.5,
-                            ),
                           );
                         }
                       },
@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 8, left: 8),
-            child: Container(
+            child: SizedBox(
               width: AppBar().preferredSize.height - 8,
               height: AppBar().preferredSize.height - 8,
             ),

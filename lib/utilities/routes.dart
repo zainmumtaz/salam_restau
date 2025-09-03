@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 
-import '../ui/fitness_app/browser/browser_screen.dart';
-import '../ui/fitness_app/home/navigation_home_screen.dart';
-import '../ui/fitness_app/login/login_screen.dart';
-import '../ui/fitness_app/payout/payout_screen.dart';
-import '../ui/fitness_app/recharge/recharge_screen.dart';
-import '../ui/fitness_app/rooms/room_screen.dart';
-import '../ui/fitness_app/transfer/scan_screen.dart';
-import '../ui/fitness_app/transfer/transfer_screen.dart';
+import '../ui/browser/browser_screen.dart';
+import '../ui/home/navigation_home_screen.dart';
+import '../ui/login/login_screen.dart';
+import '../ui/payout/payout_screen.dart';
+import '../ui/recharge/recharge_screen.dart';
+import '../ui/rooms/room_screen.dart';
+import '../ui/transfer/scan_screen.dart';
+import '../ui/transfer/transfer_screen.dart';
+
+
 
 
 class AppRoutes {

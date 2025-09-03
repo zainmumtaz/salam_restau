@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_theme.dart';
 
-import 'ui/fitness_app/login/logincontroller.dart';
+
+import 'ui/login/logincontroller.dart';
 import 'utilities/routes.dart';
 
 void main() async {

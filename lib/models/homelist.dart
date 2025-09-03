@@ -1,7 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:salam_restau/help_screen.dart';
-
-import '../ui/fitness_app/fitness_app_home_screen.dart';
+import '../ui/fitness_app_home_screen.dart';
 
 class HomeList {
   HomeList({
