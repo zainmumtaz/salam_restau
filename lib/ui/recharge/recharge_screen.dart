@@ -16,6 +16,26 @@ class RechargeScreen extends StatelessWidget {
         top: false,
         child: Scaffold(
           backgroundColor: isLightMode ? Colors.white : Colors.black,
+          appBar: AppBar(
+            backgroundColor: isLightMode ? Colors.white : Colors.black,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new,
+                  color: isLightMode ? Colors.black : Colors.white),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Text(
+              "Recharge",
+              style: TextStyle(
+                color: isLightMode ? Colors.black : Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
+          ),
           body: Obx(() => SingleChildScrollView(
             keyboardDismissBehavior:
             ScrollViewKeyboardDismissBehavior.onDrag,
