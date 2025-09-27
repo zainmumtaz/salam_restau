@@ -95,7 +95,7 @@ class LoginController extends GetxController {
           await SharedPref.save_pay_method(jsonEncode(responseData['data']['recharge']));
           //  print(responseData['data']['user']);
          // print("Transactions=${responseData['data']['transactions']}");
-          await SharedPref.save_comp_transaction(responseData['data']['transactionData']);
+         await SharedPref.save_comp_transaction(responseData['data']['transactions']);
 
           await SharedPref.save_pay_out_method(jsonEncode(responseData['data']['payout']));
 
@@ -110,6 +110,8 @@ class LoginController extends GetxController {
             String imageUrl = responseData['data']['user']['info']['photo'];
             String codeUrl = responseData['data']['user']['info']['code'];
             String? usavedPath = await FileUtils.downloadAndSaveImage(imageUrl, 'user_img.jpg');
+            print("FilePath");
+            print(usavedPath);
             String? csavedPath = await FileUtils.downloadAndSaveImage(codeUrl, 'user_code.svg');
 
 
@@ -129,7 +131,7 @@ class LoginController extends GetxController {
           }
 
           Get.offAllNamed('/home');
-         // print("I am here at 94");
+          print("I am here at 94");
         } else {
 
           //SnackbarUtils.showError(login_failed);
