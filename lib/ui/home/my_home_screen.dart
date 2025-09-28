@@ -69,7 +69,7 @@ class _MyHomeScreenState extends State<MyHomeScreen>
 
     listViews.add(
       TitleView(
-        titleTxt: 'QR Code',
+        titleTxt: '',
         subTxt: '',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
@@ -91,7 +91,7 @@ class _MyHomeScreenState extends State<MyHomeScreen>
     );
     listViews.add(
       TitleView(
-        titleTxt: 'More Options',
+        titleTxt: '',
         subTxt: 'Customize',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,

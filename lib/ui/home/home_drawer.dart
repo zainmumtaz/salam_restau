@@ -109,9 +109,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             child: ClipRRect(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(60.0)),
-                              child: hc.img.value.isNotEmpty
-                                  ? Image.file(File(hc.img.value),fit: BoxFit.cover)
+                              child:Obx(()=>hc.img.value.isNotEmpty
+                                  ? Image.file(
+                                File(hc.img.value),
+                                fit: BoxFit.cover,
+                                key: ValueKey("${hc.img.value}?${DateTime.now().millisecondsSinceEpoch}"),
+                              )
                                   : Image.asset('assets/images/userImage.png'),
+                              ),
                             ),
                           ),
                         ),

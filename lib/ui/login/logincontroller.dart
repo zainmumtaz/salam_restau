@@ -109,9 +109,9 @@ class LoginController extends GetxController {
           if (responseData['data']['user']['info'] != null) {
             String imageUrl = responseData['data']['user']['info']['photo'];
             String codeUrl = responseData['data']['user']['info']['code'];
+
             String? usavedPath = await FileUtils.downloadAndSaveImage(imageUrl, 'user_img.jpg');
-            print("FilePath");
-            print(usavedPath);
+
             String? csavedPath = await FileUtils.downloadAndSaveImage(codeUrl, 'user_code.svg');
 
 

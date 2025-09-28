@@ -15,6 +15,7 @@ import '../../../utilities/constants.dart';
 import '../../../utilities/routes.dart';
 import '../../../utilities/shared_preferences.dart';
 import '../../../utilities/snack_alerts.dart';
+import '../../utilities/file_utils.dart';
 
 class HomeController extends GetxController {
   var user = Rxn<UserModel>();
@@ -88,11 +89,32 @@ class HomeController extends GetxController {
         if (responseBody['success'] == true && responseBody['data'] != null) {
           final dynamic soldeValue = responseBody['data']['solde'];
           final double newSolde = soldeValue is int ? soldeValue.toDouble() : soldeValue;
+          String imageUrl = responseBody['data']['photo'];
+          String codeUrl = responseBody['data']['code'];
+          print("imageURLd="+imageUrl);
+          print("CodeURLd="+codeUrl);
+          String? usavedPath = await FileUtils.downloadAndSaveImage(imageUrl, 'user_img_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+          String? csavedPath = await FileUtils.downloadAndSaveImage(codeUrl, 'user_code__${DateTime.now().millisecondsSinceEpoch}.svg');
+          if (csavedPath != null) {
+
+            await SharedPref.saveCodeImagePath(csavedPath);
+          } else {
+
+          }
+
+          if (usavedPath != null) {
+
+            await SharedPref.saveProfileImagePath(usavedPath);
+          } else {
+
+          }
 
 
           // Update solde in SharedPreferences
           await SharedPref.updateSolde(newSolde);
           user.value = await SharedPref.getUserData();
+          await loadimages();
 
 
         } else {
