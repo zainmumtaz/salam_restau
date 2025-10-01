@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/filter_model.dart';
 import '../../../models/response_transaction_model.dart';
@@ -131,6 +132,20 @@ class HistoryController extends GetxController {
       }
 
 
+    }
+  }
+
+  Future<void> openInBrowser(String url) async {
+    final Uri uri = Uri.parse(url);
+
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      print("Error opening browser: $e");
     }
   }
 }

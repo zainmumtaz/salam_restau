@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:salam_restau/models/payment_method_model.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../utilities/alerts.dart';
 import '../../../utilities/constants.dart';
@@ -136,7 +137,9 @@ class RechargeController extends GetxController {
         String value=jsonBody["data"]["wave_launch_url"].toString();
 
           if(confirmaction==true) {
-            Get.offNamed(AppRoutes.browser, arguments: value);
+
+            await launchUrlString(value);
+           // Get.offNamed(AppRoutes.browser, arguments: value);
           }
           else{
             copyToClipboard(value);
@@ -149,6 +152,25 @@ class RechargeController extends GetxController {
       Get.snackbar("Error", e.toString());
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  void launchURL(String url_document) async {
+    var url=url_document.toString();
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      Get.snackbar(
+        "Error", // Title
+        "Could not Launch $url", // Message
+        snackPosition: SnackPosition.TOP, // Position at the top
+        backgroundColor: Colors.red, // Green background color
+        colorText: Colors.white, // White text color
+        margin: const EdgeInsets.all(10), // Margin for better visibility
+        borderRadius: 10, // Optional: rounded corners
+        icon: const Icon(Icons.check_circle, color: Colors.white), // Optional: add an icon
+      );
+
     }
   }
 }

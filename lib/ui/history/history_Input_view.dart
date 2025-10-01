@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 
 import '../../../utilities/routes.dart';
@@ -539,10 +541,33 @@ class HistoryInputView extends StatelessWidget {
           Flexible(
 
             child: TextButton(
-              onPressed: () {
+              onPressed: () async {
                 if (value.isNotEmpty) {
-
-                  Get.toNamed(AppRoutes.browser, arguments: value);
+                  print("Link=$value");
+                  try {
+                    final Uri uri = Uri.parse(Uri.encodeFull(value));
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri, mode: LaunchMode.externalApplication);
+                    } else {
+                      Get.snackbar(
+                        "Error",
+                        "Could not launch $value",
+                        snackPosition: SnackPosition.TOP,
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                        margin: const EdgeInsets.all(10),
+                        borderRadius: 10,
+                      );
+                    }
+                  } catch (e) {
+                    Get.snackbar(
+                      "Exception",
+                      "Failed to open link: $e",
+                      snackPosition: SnackPosition.TOP,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                    );
+                  }
                 }
               },
               child: const Text(
@@ -555,6 +580,10 @@ class HistoryInputView extends StatelessWidget {
       ),
     );
   }
+
+
+
+
 
 
 
