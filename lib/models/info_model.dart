@@ -6,6 +6,7 @@ class InfoModel {
   final String date_naissance;
   final String photo;
   final double solde;
+  final String numero;
 
   InfoModel({
     required this.id,
@@ -13,6 +14,7 @@ class InfoModel {
     required this.date_naissance,
     required this.photo,
     required this.solde,
+    required this.numero,
   });
 
   factory InfoModel.fromJson(Map<String, dynamic> json) {
@@ -21,7 +23,8 @@ class InfoModel {
       code: json["code"],
       date_naissance: json["date_naissance"]?? 'Unknown',
       photo: json["photo"],
-      solde: json['solde'] is int ? json['solde'].toDouble() : json['solde']?.toDouble() ?? 0.0,  // Handle solde as double. // Convert to double
+      solde: json['solde'] is int ? json['solde'].toDouble() : json['solde']?.toDouble() ?? 0.0,
+      numero: json["numero"],// Handle solde as double. // Convert to double
     );
   }
 }

@@ -39,6 +39,7 @@ class PayoutController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    hc.user.value!.info!.numero.toString();
     loadDropdownFromPrefs();
   }
 
@@ -128,6 +129,7 @@ class PayoutController extends GetxController {
 
         await hsc.loadHistory();
         hsc.filterTransactions();
+        Navigator.of(context).pop();
       } else {
        // print(jsonBody['message']);
         AlertHelper.showError(title: 'Transcation Failed', text:jsonBody['message'].toString());

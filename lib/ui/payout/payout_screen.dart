@@ -117,6 +117,8 @@ class PayoutScreen extends StatelessWidget {
                           error: false,
                           keyboardType: TextInputType.phone,
                           isLightMode: isLightMode,
+                          readOnly: true,
+                          defaultValue: controller.hc.user.value!.info!.numero,
                         ),
                         const SizedBox(height: 30),
 
@@ -207,10 +209,18 @@ class PayoutScreen extends StatelessWidget {
     required bool isLightMode,
     TextInputType? keyboardType,
     ValueChanged<String>? onChanged,
+    bool readOnly = false,
+    String? defaultValue, // 👈 optional parameter
   }) {
+    // Agar defaultValue pass hui hai aur controller empty hai to set karo
+    if (defaultValue != null && controller.text.isEmpty) {
+      controller.text = defaultValue;
+    }
+
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
+      readOnly: readOnly,
       onChanged: onChanged,
       style: TextStyle(
         color: isLightMode ? Colors.black : Colors.white,
@@ -229,4 +239,5 @@ class PayoutScreen extends StatelessWidget {
       ),
     );
   }
+
 }

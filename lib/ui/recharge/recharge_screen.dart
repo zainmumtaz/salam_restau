@@ -110,15 +110,7 @@ class RechargeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
 
-                        // Phone (optional)
-                        _buildTextField(
-                          label: "Phone Number (Optional)",
-                          controller: controller.phoneController,
-                          error: false,
-                          keyboardType: TextInputType.phone,
-                          isLightMode: isLightMode,
-                        ),
-                        const SizedBox(height: 30),
+
 
                         controller.isLoading.value
                             ? const CircularProgressIndicator()

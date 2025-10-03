@@ -123,6 +123,18 @@ class RechargeController extends GetxController {
           title: "Tranaction",
           text: jsonBody['message'],
         );
+
+        //Navigator.pop(context);
+        String value=jsonBody["data"]["wave_launch_url"].toString();
+
+        if(confirmaction==true) {
+
+          await launchUrlString(value);
+          // Get.offNamed(AppRoutes.browser, arguments: value);
+        }
+        else{
+          copyToClipboard(value);
+        }
         await hc.silentrefreshData();
         hsc.showFilteredList.value=false;
 
@@ -133,19 +145,11 @@ class RechargeController extends GetxController {
         phoneController.clear();
         amountController.clear();
         selectedValue.value = null;
-        //Navigator.pop(context);
-        String value=jsonBody["data"]["wave_launch_url"].toString();
 
-          if(confirmaction==true) {
+        Navigator.of(context).pop();
 
-            await launchUrlString(value);
-           // Get.offNamed(AppRoutes.browser, arguments: value);
-          }
-          else{
-            copyToClipboard(value);
-          }
       } else {
-        SnackbarUtils.showError(jsonBody['message'] ?? "Transfer failed");
+        SnackbarUtils.showError(jsonBody['message'] ?? "Recharge failed");
       }
 
     } catch (e) {
