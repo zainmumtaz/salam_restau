@@ -7,9 +7,9 @@ import '../fitness_app_theme.dart';
 import 'header.dart';
 import 'logincontroller.dart';
 
-class LoginScreen extends StatelessWidget {
+class FPScreen extends StatelessWidget {
   final LoginController controller = Get.find<LoginController>();
-  LoginScreen({super.key});
+  FPScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +63,11 @@ class LoginScreen extends StatelessWidget {
                           Container(color: Colors.grey, width: 75, height: 1),
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('Please Login',
+                            child: Text('Recover Password',
                               style: TextStyle(
                                 fontFamily: FitnessAppTheme.fontName,
                                 fontWeight: FontWeight.w700,
-                                fontSize: 22 ,
+                                fontSize: 18 ,
                                 letterSpacing: 1.2,
                                 color: FitnessAppTheme.darkerText,
                               ),
@@ -78,56 +78,55 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
 
-                    const Text('Matricule',
+                    const Text('Student ID',
                         style: TextStyle(
                             fontFamily: FitnessAppTheme.fontName,
                             fontSize: 18,
                             fontWeight: FontWeight.w700)),
                     Obx(() => TextField(
-                      controller: controller.matriculeController,
+                      controller: controller.idcontroller,
                       onChanged: (value) {
-                        if (controller.matriculeError.isNotEmpty) {
-                          controller.matriculeError.value = '';
+                        if (controller.sid_error.isNotEmpty) {
+                          controller.sid_error.value = '';
                         }
                       },
                       decoration: InputDecoration(
                         isDense: true,
-                        hintText: 'Votre matricule identifiant',
+                        hintText: 'Enter Student ID',
                         hintStyle: TextStyle(
                             color: Colors.grey, fontSize: 12),
-                        errorText: controller.matriculeError.isNotEmpty
-                            ? controller.matriculeError.value
+                        errorText: controller.sid_error.isNotEmpty
+                            ? controller.sid_error.value
                             : null,
                       ),
                     )),
+
                     const SizedBox(height: 20),
-                    const Text('Password',
+
+
+                    const Text('Last Name',
                         style: TextStyle(
-                            fontFamily: 'Quicksand',
+                            fontFamily: FitnessAppTheme.fontName,
                             fontSize: 18,
                             fontWeight: FontWeight.w700)),
-                    Obx(()=>TextField(
-                      controller: controller.passwordController,
-                      obscureText: !controller.isPasswordVisible.value,
+                    Obx(() => TextField(
+                      controller: controller.lncontroller,
+                      onChanged: (value) {
+                        if (controller.ln_error.isNotEmpty) {
+                          controller.ln_error.value = '';
+                        }
+                      },
                       decoration: InputDecoration(
-                        hintText: 'Votre password',
-                        hintStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 12),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            controller.isPasswordVisible.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            controller.togglePasswordVisibility();
-                          },
-                        ),
-                        errorText: controller.passwordError.isNotEmpty
-                            ? controller.passwordError.value
+                        isDense: true,
+                        hintText: 'Enter Last Name',
+                        hintStyle: TextStyle(
+                            color: Colors.grey, fontSize: 12),
+                        errorText: controller.ln_error.isNotEmpty
+                            ? controller.ln_error.value
                             : null,
                       ),
-                    ),),
+                    )),
+
                     const SizedBox(height: 20),
                     Container(
                       decoration: BoxDecoration(
@@ -141,7 +140,7 @@ class LoginScreen extends StatelessWidget {
                             ? null
                             : () {
 
-                          controller.login();
+                          controller.otprequest();
 
                         },
                         child: controller.isLoading.value
@@ -149,7 +148,7 @@ class LoginScreen extends StatelessWidget {
                           color: Colors.white,
                         )
                             : Text(
-                          "Se connecter",
+                          "Request OTP",
                           style: const TextStyle(
                             fontFamily: FitnessAppTheme.fontName,
                             fontWeight: FontWeight.w700,
@@ -159,12 +158,12 @@ class LoginScreen extends StatelessWidget {
                         ),
                       )),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     GestureDetector(
                       onTap: (){
-                        controller.fpstepone();
+                        controller.backtologin();
                       },
-                      child: Text('Retrouver Mot de passe',
+                      child: Text('Back To Login',
                         style: TextStyle(
                           fontFamily: FitnessAppTheme.fontName,
                           fontWeight: FontWeight.w700,

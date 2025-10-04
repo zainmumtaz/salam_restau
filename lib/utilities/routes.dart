@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 
 import '../ui/browser/browser_screen.dart';
 import '../ui/home/navigation_home_screen.dart';
+import '../ui/login/fp_screen.dart';
 import '../ui/login/login_screen.dart';
+import '../ui/login/rp_screen.dart';
 import '../ui/payout/payout_screen.dart';
 import '../ui/recharge/recharge_screen.dart';
 import '../ui/rooms/room_screen.dart';
@@ -23,6 +25,8 @@ class AppRoutes {
    static const String room='/room';
    static const String browser='/browser';
   static const String payout='/payout';
+  static const String fpso='/stepone';
+  static const String fpst='/steptwo';
 
   static List<GetPage> routes = [
     GetPage(name: login, page: () => LoginScreen()),
@@ -40,6 +44,8 @@ class AppRoutes {
     GetPage(name: room, page: () => RoomScreen()),
     GetPage(name: browser, page: () => BrowserScreen()),
     GetPage(name: payout, page: () => PayoutScreen()),
+    GetPage(name: fpso, page: () => FPScreen()),
+    GetPage(name: fpst, page: () => RPScreen()),
 
 
     // Add more routes as your app grows

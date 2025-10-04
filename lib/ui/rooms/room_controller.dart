@@ -37,52 +37,63 @@ class RoomController extends GetxController {
   //   print("Pay Now pressed for ID: $id");
   // }
 
-  Future<void> payNow(BuildContext context,int id, int roid) async {
+  Future<void> payNow(BuildContext context, int id, int roid) async {
     bool? confirm = await AlertHelper.showConfirmation(
       title: "Confirm",
-      text: "Are your Sure You Want To Pay?",
+      text: "Are you sure you want to pay?",
     );
 
-    if (confirm == true) {
-      final authtoken = await SharedPref.getAuthToken();
-      if (authtoken == null) {
-        SnackbarUtils.showError("Authentication token missing");
-        return;
+    if (confirm != true) return;
+
+    // Show QuickAlert loading
+    // QuickAlert.show(
+    //   context: context,
+    //   type: QuickAlertType.loading,
+    //   title: 'Processing',
+    //   text: 'Please wait...',
+    //   barrierDismissible: false, // cannot cancel
+    // );
+     AlertHelper.showLoading(title: "Please Wait", text: "Request is Being Process");
+
+    final authtoken = await SharedPref.getAuthToken();
+    if (authtoken == null) {
+      Navigator.pop(context); // Close loader
+      SnackbarUtils.showError("Authentication token missing");
+      return;
+    }
+
+    final body = {
+      'room_order_detail_id': id,
+      'id': id,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('$BaseUrl/student-pay-monthly'),
+        headers: {
+          'Authorization': 'Bearer $authtoken',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(body),
+      );
+
+      final jsonBody = json.decode(response.body);
+
+      Navigator.pop(context); // Close loader
+
+      if (response.statusCode == 200 && jsonBody['success'] == true) {
+      AlertHelper.showSuccess(title: "Transaction Successful", text: jsonBody['message']);
+        //Navigator.pop(context); // Close previous screen if needed
+      } else {
+        AlertHelper.showError(title: "Transaction Failed", text: jsonBody['message']);
       }
-
-      final body = {
-        'room_order_detail_id': id,
-        'id': id,
-
-      };
-
-      try {
-        final response = await http.post(
-          Uri.parse('$BaseUrl/student-pay-monthly'),
-          headers: {
-            'Authorization': 'Bearer $authtoken',
-            'Content-Type': 'application/json',
-          },
-          body: json.encode(body),
-        );
-
-
-        final jsonBody = json.decode(response.body);
-
-        if (response.statusCode == 200 && jsonBody['success'] == true) {
-          AlertHelper.showSuccess(title: "Transaction successful", text: jsonBody['message']);
-          Navigator.pop(context);
-        } else {
-          SnackbarUtils.showError(jsonBody['message'] ?? "Payment failed");
-        }
-      } catch (e) {
-
-        SnackbarUtils.showError("Error: $e");
-      } finally {
-
-      }
+    } catch (e) {
+      Navigator.pop(context); // Close loader
+      AlertHelper.showError(title: "Transaction Failed", text: e.toString());
     }
   }
+
+
 
 
 

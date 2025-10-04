@@ -10,6 +10,7 @@ import '../../../utilities/constants.dart';
 import '../../../utilities/file_utils.dart';
 import '../../../utilities/shared_preferences.dart';
 import '../../../utilities/snack_alerts.dart';
+import '../../utilities/routes.dart';
 
 class LoginController extends GetxController {
   // Controllers for form fields
@@ -343,55 +344,61 @@ class LoginController extends GetxController {
 
 
 
-  // void fpstepone(){
-  //   Get.toNamed(AppRoutes.fpso);
-  // }
+  void fpstepone(){
+
+    Get.toNamed(AppRoutes.fpso);
+  }
+
+  void backtologin(){
+
+    Get.offAllNamed(AppRoutes.login);
+  }
 
 
-  // Future<void> otprequest() async {
-  //   String student_id = idcontroller.text.trim();
-  //   String last_name = lncontroller.text.trim();
-  //
-  //   // Validate student ID and last name before proceeding
-  //   sid_error.value = validateMatricule(student_id) ?? '';
-  //   ln_error.value = validateMatricule(last_name) ?? '';
-  //
-  //   // Stop execution if there are validation errors
-  //   if (sid_error.isNotEmpty || ln_error.isNotEmpty) {
-  //     return;
-  //   }
-  //
-  //   isLoading.value = true;
-  //
-  //   final String apiUrl = '$BaseUrl/otp-forgot-password';  // Complete API endpoint
-  //   final Map<String, String> data = {
-  //     'student_id': student_id,
-  //     'last_name': last_name,
-  //   };
-  //
-  //   try {
-  //     final response = await http.post(Uri.parse(apiUrl), body: data);
-  //
-  //     if (response.statusCode == 200) {
-  //       var responseData = json.decode(response.body);
-  //       if (responseData['success']) {
-  //         SnackbarUtils.showSuccess(responseData['message']);
-  //         Get.offNamed(AppRoutes.fpst);  // Navigate to OTP screen
-  //       } else {
-  //         SnackbarUtils.showError(responseData['message'] ?? 'Login failed.');
-  //       }
-  //     } else {
-  //       SnackbarUtils.showError("Error: ${response.statusCode}");
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //     SnackbarUtils.showError('Something went wrong. Please try again.');
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
+  Future<void> otprequest() async {
+    String student_id = idcontroller.text.trim();
+    String last_name = lncontroller.text.trim();
 
-  Future<void> resetpasword() async {
+    // Validate student ID and last name before proceeding
+    sid_error.value = validateMatricule(student_id) ?? '';
+    ln_error.value = validateMatricule(last_name) ?? '';
+
+    // Stop execution if there are validation errors
+    if (sid_error.isNotEmpty || ln_error.isNotEmpty) {
+      return;
+    }
+
+    isLoading.value = true;
+
+    final String apiUrl = '$BaseUrl/otp-forgot-password';  // Complete API endpoint
+    final Map<String, String> data = {
+      'student_id': student_id,
+      'last_name': last_name,
+    };
+
+    try {
+      final response = await http.post(Uri.parse(apiUrl), body: data);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if (responseData['success']==true) {
+          SnackbarUtils.showSuccess(responseData['message']);
+          Get.offNamed(AppRoutes.fpst);  // Navigate to OTP screen
+        } else {
+          SnackbarUtils.showError(responseData['message'] ?? 'Login failed.');
+        }
+      } else {
+        SnackbarUtils.showError("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print('Error: $e');
+      SnackbarUtils.showError('Something went wrong. Please try again.');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+  //
+  Future<void> resetpaswordbackup() async {
     String otp = otpcontroller.text.trim();
     String newpassword = newpasscontroller.text.trim();
     String password_confirmation = conpasscontroller.text.trim();
@@ -439,6 +446,61 @@ class LoginController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> resetpasword() async {
+
+    String otp = otpcontroller.text.trim();
+    String newpassword = newpasscontroller.text.trim();
+    String password_confirmation = conpasscontroller.text.trim();
+
+    // 🔹 Field validations
+    otp_error.value = validateMatricule(otp) ?? '';
+    newpass_error.value = validatePassword(newpassword) ?? '';
+    conpass_error.value = validatePassword(password_confirmation) ?? '';
+
+    // 🔹 Check if passwords match
+    if (newpassword != password_confirmation) {
+      conpass_error.value = 'Passwords do not match';
+    }
+
+    // 🔹 Stop execution if any validation error exists
+    if (otp_error.isNotEmpty ||
+        newpass_error.isNotEmpty ||
+        conpass_error.isNotEmpty) {
+      return;
+    }
+
+    isLoading.value = true;
+
+    final String apiUrl = '$BaseUrl/update-reset-password';
+    final Map<String, String> data = {
+      'otp': otp,
+      'password': newpassword,
+      'password_confirmation': password_confirmation,
+    };
+
+    try {
+      final response = await http.post(Uri.parse(apiUrl), body: data);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+
+        if (responseData['success'] == true) {
+          SnackbarUtils.showSuccess(responseData['message']);
+          Get.back(); // Navigate back to login
+        } else {
+          SnackbarUtils.showError(responseData['message'] ?? 'Password reset failed.');
+        }
+      } else {
+        SnackbarUtils.showError("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      SnackbarUtils.showError('Something went wrong. Please try again.');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 
 
 
